@@ -1,67 +1,50 @@
 import sys
 
-def result_of(arith):
-# the position of operator
-    addition = "+"
-    substraction = "-"
-    multiplication = "*"
-    division = "/"
-    modulo = "%"
-    left_parenthesis = "("
-    right_parenthesis = ")"
-    
-    lst = []
-    for i, char in enumerate(arith):
-# sense of priority
-        # if char == left_parenthesis:
-        #     lst.append(i)
-        # elif char == right_parenthesis:
-        #     lst.append(i)
-        #     print(lst)
-        #     if multiplication 
-            # if char == multiplication:
-            #     lst.append(i)
-            # elif char == division:
-            #     lst.append(i)
-            # elif char == modulo:
-            #     lst.append(i)
-                
-            #     if char == multiplication:
-            #         lst.append(i)
-            #     elif char == division:
-            #         lst.append(i)
-            #     elif char == modulo:
-            #         lst.append(i)
-                
-                
-                    if char == addition or char == substraction:
-                        lst.append(i)
-                
-           
-# the positions of numbers behind and in front (list)  
-    behind = list(map(lambda x : x - 2, lst))
-    front = list(map(lambda x : x + 2, lst))
-            
-# transform list to int
-    behind_list = map(str, behind)
-    behind_value = ''.join(behind_list)
-    b_number = int(behind_value)
-            
-    front_list = map(str, front)
-    front_value = ''.join(front_list)
-    f_number = int(front_value)
-            
-         
-# transform string into a list
-    arith_list = list(arith)
-    return (int(arith_list[b_number]) + int(arith_list[f_number])) or (int(arith_list[b_number]) - int(arith_list[f_number]))
-    
-
-    
-          
 arithmetic_progression = sys.argv[1]
 
-result = result_of(arithmetic_progression)
+def find_op(arith, op):
+    index = [n for (n, e) in enumerate(arith) if e == op]
+    return index
 
-print(result)
+def split_list(lst):
+    new_list = []
+    for ele in lst:
+        new_list.append([ele])
+    return new_list[0]
+        
 
+def behind_front(lst):
+    new_lst = []
+    for i in lst:
+        behind = list(map(lambda x : x - 2, i))
+        front = list(map(lambda x : x + 2, i))
+        
+        two_element = behind + front    
+        
+        new_lst.append(two_element)
+  
+    return new_lst
+
+def result_of(arith):
+    for i in arith:
+        if i == "+":
+            operator = '+'
+            
+            op_index = find_op(arith,operator)
+
+            # b_f = behind_front(each_index)
+    
+    print(op_index)
+    # print(each_index)
+    # print(b_f)
+
+result_of(arithmetic_progression)
+       
+        # elif i == "-":
+        #     sub_index = [n for (n, e) in enumerate(arith) if e == '-']
+        # elif i == "*":
+        #     mul_index = [n for (n, e) in enumerate(arith) if e == '-']
+        # elif i == "/":
+        #     div_index = [n for (n, e) in enumerate(arith) if e == '-']
+        # elif i == "%":
+        #     mod_index = [n for (n, e) in enumerate(arith) if e == '-']
