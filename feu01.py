@@ -2,45 +2,87 @@ import sys
 
 arithmetic_progression = sys.argv[1]
 
-def find_op(arith, op):
-    arith_list = arith.split()
+def find_op(arith_list, op):
     index = [n for (n, e) in enumerate(arith_list) if e == op]
-    return index[0]
+    return index[0] if index else -1
 
 def behind(op):
-    behind = op - 1
-    return behind
+    return op - 1
 
 def front(op):
-    front = op + 1
-    return front
+    return op + 1
 
-def result_of(arith):
-    arith_list = arith.split()
-    
-    if '(' in arith_list:
+def calculate(expression):
+    while '(' in expression:
         parenthesis_index = []
-        
+
         operator = '('     
-        op_index = find_op(arith,operator)
-        parenthesis_index.append(op_index)
+        op_index_open = find_op(expression, operator)
+        parenthesis_index.append(op_index_open)
 
         operator = ')'
-        op_index = find_op(arith,operator)
-        parenthesis_index.append(op_index)
-        
-        sub_expression = arith_list[parenthesis_index[0] + 1:parenthesis_index[1]]
+        op_index_close = find_op(expression, operator)
+        parenthesis_index.append(op_index_close)
 
-result_of(arithmetic_progression)
+        sub_expression = expression[parenthesis_index[0] + 1:parenthesis_index[1]]
 
-# while "+" in arith_list:
-    #     operator = '+'
-                            
-    #     op_index = find_op(arith,operator)
-    #     b = behind(op_index)
-    #     f = front(op_index)
-                            
-    #     calcul = int(arith_list[b]) + int(arith_list[f])
-    #     arith_list = arith_list[:b] + [str(calcul)] + arith_list[f+1:]
-                    
-    # print(arith_list)
+        # Boucle pour les opérations *, /, %
+        while '*' in sub_expression or '/' in sub_expression or '%' in sub_expression:
+            for i, token in enumerate(sub_expression):
+                if token in ['*', '/', '%']:
+                    operator = token
+                    b = i - 1
+                    f = i + 1
+                    calcul = (
+                        float(sub_expression[b]) * float(sub_expression[f]) if operator == '*' else
+                        float(sub_expression[b]) / float(sub_expression[f]) if operator == '/' else
+                        float(sub_expression[b]) % float(sub_expression[f])
+                    )
+                    sub_expression[b:f+1] = [str(calcul)]
+
+        # Boucle pour les opérations +, -
+        while '+' in sub_expression or '-' in sub_expression:
+            for i, token in enumerate(sub_expression):
+                if token in ['+', '-']:
+                    operator = token
+                    b = i - 1
+                    f = i + 1
+                    calcul = (
+                        float(sub_expression[b]) + float(sub_expression[f]) if operator == '+' else
+                        float(sub_expression[b]) - float(sub_expression[f])
+                    )
+                    sub_expression[b:f+1] = [str(calcul)]
+
+        expression[parenthesis_index[0]:parenthesis_index[1]+1] = sub_expression
+
+    # Boucle pour les opérations *, /, %
+    while '*' in expression or '/' in expression or '%' in expression:
+        for i, token in enumerate(expression):
+            if token in ['*', '/', '%']:
+                operator = token
+                b = i - 1
+                f = i + 1
+                calcul = (
+                    float(expression[b]) * float(expression[f]) if operator == '*' else
+                    float(expression[b]) / float(expression[f]) if operator == '/' else
+                    float(expression[b]) % float(expression[f])
+                )
+                expression[b:f+1] = [str(calcul)]
+
+    # Boucle pour les opérations +, -
+    while '+' in expression or '-' in expression:
+        for i, token in enumerate(expression):
+            if token in ['+', '-']:
+                operator = token
+                b = i - 1
+                f = i + 1
+                calcul = (
+                    float(expression[b]) + float(expression[f]) if operator == '+' else
+                    float(expression[b]) - float(expression[f])
+                )
+                expression[b:f+1] = [str(calcul)]
+
+    print(expression[0])
+
+result = calculate(arithmetic_progression.split())
+
