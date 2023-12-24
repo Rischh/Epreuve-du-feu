@@ -6,12 +6,6 @@ def find_op(arith_list, op):
     index = [n for (n, e) in enumerate(arith_list) if e == op]
     return index[0] if index else -1
 
-def behind(op):
-    return op - 1
-
-def front(op):
-    return op + 1
-
 def calculate(expression):
     while '(' in expression:
         parenthesis_index = []
