@@ -73,12 +73,10 @@ const getMatrixSudoku = (sudoku) => {
   return matrixSudoku
 }
 
-const isValidArgsLength = (args, wantedLength) => {
-  if (args.length !== wantedLength)
-    return console.error(
-      `Le programme a besoin de ${wantedLength} pour fonctionner.`
-    )
-  return args
+const isValidLength = (validLength) => {
+  if (!validLength)
+    return console.error("ERROR: Number of Arguments is Invalid.")
+  return true
 }
 
 const isValidString = (string) => {
@@ -121,8 +119,10 @@ const getArgs = () => {
 }
 
 const displayResolvedSudoku = () => {
-  const args = isValidArgsLength(getArgs(), 1)
-  if (!args) return
+  const args = getArgs()
+
+  const validLength = args.length === 1
+  if (!isValidLength(validLength)) return
 
   const string = isValidString(args[0])
   if (!string) return
