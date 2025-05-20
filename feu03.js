@@ -1,5 +1,3 @@
-const fs = require("node:fs")
-
 const solveSudoku = (grid, row, cell) => {
   if (row === 9) return true
 
@@ -52,7 +50,9 @@ const isValidCell = (grid, row, cell, k) => {
 }
 
 const getContentFile = (fileName) => {
-  const content = fs.readFileSync(`./${fileName}`, "utf8")
+  const { readFileSync } = require("node:fs")
+
+  const content = readFileSync(`./${fileName}`, "utf8")
   return content
 }
 
@@ -95,24 +95,6 @@ const isValidFileExtension = (fileName, validFileExtension) => {
   return fileName
 }
 
-const isExistingFile = (filePath) => {
-  const isExisting = fs.existsSync(filePath)
-
-  if (!isExisting)
-    return console.error("Le fichier n'existe pas dans le dossier courrant.")
-  return true
-}
-
-const isReadableFile = (filePath) => {
-  try {
-    fs.accessSync(filePath, fs.constants.R_OK)
-    return true
-  } catch (error) {
-    console.error("Le fichier specifie n'est pas lisible.")
-    return false
-  }
-}
-
 const getArgs = () => {
   const args = process.argv.slice(2)
   return args
@@ -129,9 +111,6 @@ const displayResolvedSudoku = () => {
 
   const fileName = isValidFileExtension(string, "txt")
   if (!fileName) return
-
-  if (!isExistingFile(fileName)) return
-  if (!isReadableFile(fileName)) return
 
   const sudoku = getContentFile(fileName)
 
