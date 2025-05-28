@@ -61,4 +61,4 @@ Rischebourg Samuel
 
 ## 🗺️ To-Do
 
-- Import and integrate **Error Handling Functions** to improve robustness
+- Create Import Files containing Error Handling Functions to improve robustness
