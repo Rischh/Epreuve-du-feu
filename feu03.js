@@ -13,6 +13,7 @@ const solveSudoku = (grid, row, cell) => {
       grid[row][cell] = "."
     }
   }
+
   return false
 }
 
@@ -28,23 +29,18 @@ const isValidCell = (grid, row, cell, k) => {
   }
 
   let notInSubgrid = true
-  // for (
-  //   let j = Math.floor((row / 3) * 3);
-  //   j < Math.floor((row / 3) * 3 + 3);
-  //   j++
-  // ) {
-  //   for (
-  //     let l = Math.floor((cell / 3) * 3);
-  //     l < Math.floor((cell / 3) * 3 + 3);
-  //     l++
-  //   ) {
-  //     console.log(grid[j][l])
-  //     if (grid[j][l] === k) {
-  //       notInSubgrid = false
-  //       break
-  //     }
-  //   }
-  // }
+  for (let j = Math.floor(row / 3) * 3; j < Math.floor(row / 3) * 3 + 3; j++) {
+    for (
+      let l = Math.floor(cell / 3) * 3;
+      l < Math.floor(cell / 3) * 3 + 3;
+      l++
+    ) {
+      if (grid[j][l] === k) {
+        notInSubgrid = false
+        break
+      }
+    }
+  }
 
   return notInRow && notInColumn && notInSubgrid
 }
