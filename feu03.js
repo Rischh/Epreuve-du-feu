@@ -116,9 +116,9 @@ const displayResolvedSudoku = () => {
 
   const matrixSudoku = getMatrixSudoku(sudoku)
 
-  const result = [...matrixSudoku]
-  solveSudoku(result, 0, 0)
+  const result = matrixSudoku.map((array) => [...array])
 
+  solveSudoku(result, 0, 0)
   return result
     .map((array) => array.join(""))
     .forEach((element) => console.log(element))
