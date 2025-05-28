@@ -56,15 +56,16 @@ const getContentFile = (fileName) => {
   return content
 }
 
-const getMatrixSudoku = (sudoku) => {
-  const matrixSudoku = sudoku.split("\n").map((string) => string.split(""))
+const parseSudokuContentToMatrix = (sudokuContent) => {
+  const matrixSudoku = sudokuContent
+    .split("\n")
+    .map((string) => string.split(""))
 
   const stringDigits = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
   for (let i = 0; i < matrixSudoku.length; i++) {
     for (let j = 0; j < matrixSudoku[i].length; j++) {
-      const cell = matrixSudoku[i][j]
-      if (stringDigits.includes(cell)) {
+      if (stringDigits.includes(matrixSudoku[i][j])) {
         matrixSudoku[i][j] = +matrixSudoku[i][j]
       }
     }
@@ -79,20 +80,12 @@ const isValidLength = (validLength) => {
   return true
 }
 
-const isValidString = (string) => {
-  if (!isNaN(string))
-    return console.error(
-      "Le programme a besoin d'une chaine de caracteres comme argument pour fonctionner."
-    )
-  return string
-}
-
 const isValidFileExtension = (fileName, validFileExtension) => {
   const fileExtension = fileName.split(".")[1]
 
   if (fileExtension !== validFileExtension)
     return console.error("L'extension du fichier n'est pas valide.")
-  return fileName
+  return true
 }
 
 const getArgs = () => {
@@ -106,17 +99,13 @@ const displayResolvedSudoku = () => {
   const validLength = args.length === 1
   if (!isValidLength(validLength)) return
 
-  const string = isValidString(args[0])
-  if (!string) return
+  const fileName = args[0]
+  if (!isValidFileExtension(fileName, "txt")) return
 
-  const fileName = isValidFileExtension(string, "txt")
-  if (!fileName) return
+  const sudokuContent = getContentFile(fileName)
+  const sudokuMatrix = parseSudokuContentToMatrix(sudokuContent)
 
-  const sudoku = getContentFile(fileName)
-
-  const matrixSudoku = getMatrixSudoku(sudoku)
-
-  const result = matrixSudoku.map((array) => [...array])
+  const result = sudokuMatrix.map((array) => [...array])
 
   solveSudoku(result, 0, 0)
   return result
