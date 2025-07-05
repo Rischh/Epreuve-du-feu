@@ -5,7 +5,7 @@ This repository contains a collection of algorithmic exercises and coding challe
 All exercises are developed under specific constraints to enhance code clarity and robustness:
 
 - **Clean Code principles**
-- **Functional programming Paradigm**
+- **Procedural programming**
 
 These constraints help build more predictable, testable, and modular code.
 
